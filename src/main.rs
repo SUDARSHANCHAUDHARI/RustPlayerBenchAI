@@ -1,8 +1,7 @@
 mod cli;
-mod bench;
 mod output;
-mod report;
 
+use benchrun::{bench, report};
 use anyhow::Result;
 use clap::Parser;
 use cli::{Cli, Commands};

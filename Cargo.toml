@@ -6,6 +6,10 @@ authors = ["Sudarshan Chaudhari <sunny.sudarshan@gmail.com>"]
 description = "Device benchmark runner — measure FPS, memory, CPU for digital signage players"
 license = "MIT"
 
+[lib]
+name = "benchrun"
+path = "src/lib.rs"
+
 [[bin]]
 name = "benchrun"
 path = "src/main.rs"
