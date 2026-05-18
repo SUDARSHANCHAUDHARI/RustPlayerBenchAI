@@ -1,5 +1,5 @@
 use colored::Colorize;
-use crate::report::{BenchReport, Verdict};
+use benchrun::report::{BenchReport, Verdict};
 
 pub fn print(report: &BenchReport) {
     println!("\n{}", "BenchRun Report".bold().underline());
