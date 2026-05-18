@@ -66,35 +66,55 @@ fn test_duration_sets_sample_count() {
 
 #[test]
 fn test_normal_load_is_pass() {
-    let result = BenchResult { avg_cpu_percent: 40.0, avg_memory_mb: 300.0, sample_count: 5 };
+    let result = BenchResult {
+        avg_cpu_percent: 40.0,
+        avg_memory_mb: 300.0,
+        sample_count: 5,
+    };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Pass));
 }
 
 #[test]
 fn test_high_cpu_is_warn() {
-    let result = BenchResult { avg_cpu_percent: 75.0, avg_memory_mb: 300.0, sample_count: 5 };
+    let result = BenchResult {
+        avg_cpu_percent: 75.0,
+        avg_memory_mb: 300.0,
+        sample_count: 5,
+    };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Warn));
 }
 
 #[test]
 fn test_high_memory_is_warn() {
-    let result = BenchResult { avg_cpu_percent: 40.0, avg_memory_mb: 650.0, sample_count: 5 };
+    let result = BenchResult {
+        avg_cpu_percent: 40.0,
+        avg_memory_mb: 650.0,
+        sample_count: 5,
+    };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Warn));
 }
 
 #[test]
 fn test_critical_cpu_is_fail() {
-    let result = BenchResult { avg_cpu_percent: 95.0, avg_memory_mb: 300.0, sample_count: 5 };
+    let result = BenchResult {
+        avg_cpu_percent: 95.0,
+        avg_memory_mb: 300.0,
+        sample_count: 5,
+    };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Fail));
 }
 
 #[test]
 fn test_critical_memory_is_fail() {
-    let result = BenchResult { avg_cpu_percent: 40.0, avg_memory_mb: 850.0, sample_count: 5 };
+    let result = BenchResult {
+        avg_cpu_percent: 40.0,
+        avg_memory_mb: 850.0,
+        sample_count: 5,
+    };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Fail));
 }
