@@ -13,7 +13,7 @@ Digital signage fleets often mix player types with different performance envelop
 
 - Runs benchmark simulations for supported player profiles.
 - Supports `local`, `scos`, `brightsign`, `pi4`, and unknown-device fallback profiles.
-- Calculates CPU, memory, FPS, dropped frames, and sample count.
+- Calculates CPU, memory, and sample count.
 - Uses duration to control the number of generated samples.
 - Produces `PASS`, `WARN`, and `FAIL` verdicts from CPU and memory thresholds.
 - Supports terminal output for humans and JSON output for automation.
@@ -55,6 +55,27 @@ benchrun run --device scos --duration 30
 
 # Emit JSON
 benchrun run --device scos --json
+```
+
+## Included Example
+
+This repository includes a checked-in sample report:
+
+```bash
+cat examples/scos-report.json
+```
+
+Real JSON output from the CLI:
+
+```json
+{
+  "device": "scos",
+  "duration_secs": 5,
+  "avg_cpu_percent": 45.0,
+  "avg_memory_mb": 380.0,
+  "sample_count": 5,
+  "verdict": "Pass"
+}
 ```
 
 ## Supported Device Profiles

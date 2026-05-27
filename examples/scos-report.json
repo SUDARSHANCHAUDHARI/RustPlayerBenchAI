@@ -1,0 +1,8 @@
+{
+  "device": "scos",
+  "duration_secs": 5,
+  "avg_cpu_percent": 45.0,
+  "avg_memory_mb": 380.0,
+  "sample_count": 5,
+  "verdict": "Pass"
+}
