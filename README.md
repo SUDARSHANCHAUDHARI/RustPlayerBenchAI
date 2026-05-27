@@ -1,57 +1,120 @@
 # RustPlayerBenchAI
 
-Rust CLI benchmark runner for digital signage player devices. Measures CPU and memory usage and produces Pass/Warn/Fail verdicts.
+[![CI](https://github.com/SUDARSHANCHAUDHARI/RustPlayerBenchAI/actions/workflows/ci.yml/badge.svg)](https://github.com/SUDARSHANCHAUDHARI/RustPlayerBenchAI/actions/workflows/ci.yml)
+![Rust](https://img.shields.io/badge/Rust-1.75%2B-orange?logo=rust)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-## Install
+RustPlayerBenchAI is a Rust CLI benchmark reporter for digital signage player profiles. It produces deterministic CPU and memory benchmark reports for known device classes, then maps those results into `PASS`, `WARN`, or `FAIL` verdicts.
+
+## Why This Exists
+
+Digital signage fleets often mix player types with different performance envelopes. RustPlayerBenchAI gives you a simple, scriptable way to compare expected device profiles, validate thresholds, and produce consistent JSON or terminal benchmark summaries.
+
+## Features
+
+- Runs benchmark simulations for supported player profiles.
+- Supports `local`, `scos`, `brightsign`, `pi4`, and unknown-device fallback profiles.
+- Calculates CPU, memory, FPS, dropped frames, and sample count.
+- Uses duration to control the number of generated samples.
+- Produces `PASS`, `WARN`, and `FAIL` verdicts from CPU and memory thresholds.
+- Supports terminal output for humans and JSON output for automation.
+- Includes integration tests for profiles, thresholds, duration behavior, and CLI output.
+
+## Installation
 
 ```bash
+git clone https://github.com/SUDARSHANCHAUDHARI/RustPlayerBenchAI.git
+cd RustPlayerBenchAI
 cargo build --release
-# binary at target/release/benchrun
+```
+
+The binary is created at:
+
+```bash
+target/release/benchrun
+```
+
+Optional local install:
+
+```bash
+cargo install --path .
 ```
 
 ## Usage
 
 ```bash
-# Run benchmark against a device (default: local, 10s)
+# Run benchmark against the default local profile for 10 seconds
 benchrun run
 
-# Specific device
+# Run a known device profile
 benchrun run --device scos
 benchrun run --device brightsign
 benchrun run --device pi4
 
-# Custom duration
+# Set duration in seconds
 benchrun run --device scos --duration 30
 
-# JSON output
+# Emit JSON
 benchrun run --device scos --json
 ```
 
-## Supported devices
+## Supported Device Profiles
 
-| Device | CPU profile | Memory profile |
-|---|---|---|
+| Device | CPU Profile | Memory Profile |
+|---|---:|---:|
 | `scos` | 45% | 380 MB |
 | `brightsign` | 30% | 256 MB |
 | `pi4` | 55% | 512 MB |
-| `local` / unknown | 40% | 350 MB |
+| `local` or unknown | 40% | 350 MB |
 
-## Verdict thresholds
+## Verdict Thresholds
 
 | Verdict | CPU | Memory |
-|---|---|---|
-| `PASS` | ≤ 70% | ≤ 600 MB |
-| `WARN` | 70–90% | 600–800 MB |
-| `FAIL` | > 90% | > 800 MB |
+|---|---:|---:|
+| `PASS` | 70% or lower | 600 MB or lower |
+| `WARN` | 70% to 90% | 600 MB to 800 MB |
+| `FAIL` | Above 90% | Above 800 MB |
 
-## Test
+## JSON Use Cases
+
+The `--json` flag is useful for CI jobs, smoke-test dashboards, QA scripts, and fleet checks where another tool needs to consume the benchmark result.
 
 ```bash
-cargo test
+benchrun run --device pi4 --duration 60 --json > bench-report.json
 ```
 
-14 integration tests — device profiles, verdict thresholds, CLI.
+## Development
 
-## Stack
+```bash
+cargo fmt --check
+cargo clippy -- -D warnings
+cargo test
+cargo build --release
+```
 
-Rust · clap · serde · colored · chrono · anyhow
+The CI workflow runs the same checks on every push and pull request to `main`.
+
+## Project Structure
+
+```text
+src/
+  cli.rs          Command-line interface
+  bench/          Device profile and benchmark calculation
+  report.rs       Verdict and report output
+tests/
+  integration_test.rs
+```
+
+## Release Status
+
+Current production release: `v1.0.0`
+
+The `v1.0.0` release was verified with formatting, clippy, tests, optimized release build, and `cargo package`.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
+
+## Developer
+
+Built by [Sudarshan Chaudhari](https://github.com/SUDARSHANCHAUDHARI) under SudarshanTechLabs.
