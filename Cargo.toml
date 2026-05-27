@@ -1,10 +1,12 @@
 [package]
 name = "benchrun"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 authors = ["Sudarshan Chaudhari <sunny.sudarshan@gmail.com>"]
 description = "Device benchmark runner — measure FPS, memory, CPU for digital signage players"
 license = "MIT"
+repository = "https://github.com/SUDARSHANCHAUDHARI/RustPlayerBenchAI"
+readme = "README.md"
 
 [lib]
 name = "benchrun"
