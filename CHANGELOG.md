@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 - 2026-05-28
 
 - Added configurable CPU and memory pass/warn/fail thresholds.
 
