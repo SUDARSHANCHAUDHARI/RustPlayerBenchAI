@@ -9,6 +9,26 @@ pub struct BenchReport {
     pub avg_memory_mb: f64,
     pub sample_count: usize,
     pub verdict: Verdict,
+    pub thresholds: Thresholds,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy)]
+pub struct Thresholds {
+    pub cpu_warn: f64,
+    pub cpu_fail: f64,
+    pub memory_warn_mb: f64,
+    pub memory_fail_mb: f64,
+}
+
+impl Default for Thresholds {
+    fn default() -> Self {
+        Self {
+            cpu_warn: 70.0,
+            cpu_fail: 90.0,
+            memory_warn_mb: 600.0,
+            memory_fail_mb: 800.0,
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -29,9 +49,22 @@ impl std::fmt::Display for Verdict {
 }
 
 pub fn build(device: &str, duration: u64, result: &BenchResult) -> BenchReport {
-    let verdict = if result.avg_cpu_percent > 90.0 || result.avg_memory_mb > 800.0 {
+    build_with_thresholds(device, duration, result, Thresholds::default())
+}
+
+pub fn build_with_thresholds(
+    device: &str,
+    duration: u64,
+    result: &BenchResult,
+    thresholds: Thresholds,
+) -> BenchReport {
+    let verdict = if result.avg_cpu_percent > thresholds.cpu_fail
+        || result.avg_memory_mb > thresholds.memory_fail_mb
+    {
         Verdict::Fail
-    } else if result.avg_cpu_percent > 70.0 || result.avg_memory_mb > 600.0 {
+    } else if result.avg_cpu_percent > thresholds.cpu_warn
+        || result.avg_memory_mb > thresholds.memory_warn_mb
+    {
         Verdict::Warn
     } else {
         Verdict::Pass
@@ -44,5 +77,6 @@ pub fn build(device: &str, duration: u64, result: &BenchResult) -> BenchReport {
         avg_memory_mb: result.avg_memory_mb,
         sample_count: result.sample_count,
         verdict,
+        thresholds,
     }
 }

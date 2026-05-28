@@ -13,9 +13,19 @@ fn main() -> Result<()> {
             device,
             duration,
             json,
+            cpu_warn,
+            cpu_fail,
+            memory_warn,
+            memory_fail,
         } => {
             let result = bench::run(&device, duration)?;
-            let report = report::build(&device, duration, &result);
+            let thresholds = report::Thresholds {
+                cpu_warn,
+                cpu_fail,
+                memory_warn_mb: memory_warn,
+                memory_fail_mb: memory_fail,
+            };
+            let report = report::build_with_thresholds(&device, duration, &result, thresholds);
             if json {
                 output::json::print(&report)?;
             } else {

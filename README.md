@@ -55,6 +55,9 @@ benchrun run --device scos --duration 30
 
 # Emit JSON
 benchrun run --device scos --json
+
+# Tune pass/warn/fail thresholds for your environment
+benchrun run --device scos --cpu-warn 60 --cpu-fail 85 --memory-warn 500 --memory-fail 700
 ```
 
 ## Included Example
@@ -94,6 +97,8 @@ Real JSON output from the CLI:
 | `PASS` | 70% or lower | 600 MB or lower |
 | `WARN` | 70% to 90% | 600 MB to 800 MB |
 | `FAIL` | Above 90% | Above 800 MB |
+
+Thresholds can be customized per run with `--cpu-warn`, `--cpu-fail`, `--memory-warn`, and `--memory-fail`. JSON output includes the thresholds used for that verdict.
 
 ## JSON Use Cases
 

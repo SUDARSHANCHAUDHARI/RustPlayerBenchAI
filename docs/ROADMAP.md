@@ -5,8 +5,11 @@ This is a solo-maintained roadmap. Items are practical possibilities, not promis
 ## Planned
 
 - Add more documented player profiles.
-- Add configurable pass/warn/fail thresholds.
 - Add CSV output for simple comparison tables.
+
+## Completed
+
+- Added configurable pass/warn/fail CPU and memory thresholds.
 
 ## Maybe Later
 

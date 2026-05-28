@@ -87,6 +87,19 @@ fn test_high_cpu_is_warn() {
 }
 
 #[test]
+fn test_custom_thresholds_can_fail_scos_profile() {
+    let result = bench::run("scos", 5).unwrap();
+    let thresholds = report::Thresholds {
+        cpu_warn: 40.0,
+        cpu_fail: 44.0,
+        memory_warn_mb: 300.0,
+        memory_fail_mb: 379.0,
+    };
+    let rep = report::build_with_thresholds("scos", 5, &result, thresholds);
+    assert!(matches!(rep.verdict, Verdict::Fail));
+}
+
+#[test]
 fn test_high_memory_is_warn() {
     let result = BenchResult {
         avg_cpu_percent: 40.0,
@@ -139,4 +152,26 @@ fn test_cli_run_scos_terminal() {
         .assert()
         .success()
         .stdout(contains("BenchRun Report"));
+}
+
+#[test]
+fn test_cli_run_accepts_custom_thresholds() {
+    Command::cargo_bin("benchrun")
+        .unwrap()
+        .args([
+            "run",
+            "--device",
+            "scos",
+            "--duration",
+            "1",
+            "--cpu-fail",
+            "44",
+            "--memory-fail",
+            "379",
+            "--json",
+        ])
+        .assert()
+        .success()
+        .stdout(contains("Fail"))
+        .stdout(contains("cpu_fail"));
 }

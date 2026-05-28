@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added configurable CPU and memory pass/warn/fail thresholds.
+
 ## 1.0.0 - 2026-05-27
 
 - Production release baseline.
