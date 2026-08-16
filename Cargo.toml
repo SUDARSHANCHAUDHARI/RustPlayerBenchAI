@@ -1,6 +1,6 @@
 [package]
 name = "benchrun"
-version = "1.1.0"
+version = "1.1.1"
 edition = "2021"
 authors = ["Sudarshan Chaudhari <sunny.sudarshan@gmail.com>"]
 description = "Device benchmark runner for CPU and memory checks on digital signage players"
