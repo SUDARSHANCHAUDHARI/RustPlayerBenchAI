@@ -30,7 +30,7 @@ cargo build --release
 The binary is created at:
 
 ```bash
-target/release/benchrun
+target/release/playerbenchai
 ```
 
 Optional local install:
@@ -43,21 +43,21 @@ cargo install --path .
 
 ```bash
 # Run benchmark against the default local profile for 10 seconds
-benchrun run
+playerbenchai run
 
 # Run a known device profile
-benchrun run --device scos
-benchrun run --device brightsign
-benchrun run --device pi4
+playerbenchai run --device scos
+playerbenchai run --device brightsign
+playerbenchai run --device pi4
 
 # Set duration in seconds
-benchrun run --device scos --duration 30
+playerbenchai run --device scos --duration 30
 
 # Emit JSON
-benchrun run --device scos --json
+playerbenchai run --device scos --json
 
 # Tune pass/warn/fail thresholds for your environment
-benchrun run --device scos --cpu-warn 60 --cpu-fail 85 --memory-warn 500 --memory-fail 700
+playerbenchai run --device scos --cpu-warn 60 --cpu-fail 85 --memory-warn 500 --memory-fail 700
 ```
 
 ## Included Example
@@ -105,7 +105,7 @@ Thresholds can be customized per run with `--cpu-warn`, `--cpu-fail`, `--memory-
 The `--json` flag is useful for CI jobs, smoke-test dashboards, QA scripts, and fleet checks where another tool needs to consume the benchmark result.
 
 ```bash
-benchrun run --device pi4 --duration 60 --json > bench-report.json
+playerbenchai run --device pi4 --duration 60 --json > bench-report.json
 ```
 
 ## Development

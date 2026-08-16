@@ -2,7 +2,7 @@ use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
 #[command(
-    name = "benchrun",
+    name = "playerbenchai",
     about = "Device benchmark runner for digital signage players",
     version
 )]

@@ -7,7 +7,7 @@ use predicates::str::contains;
 
 #[test]
 fn test_help() {
-    Command::cargo_bin("benchrun")
+    Command::cargo_bin("playerbenchai")
         .unwrap()
         .arg("--help")
         .assert()
@@ -17,7 +17,7 @@ fn test_help() {
 
 #[test]
 fn test_run_subcommand_help() {
-    Command::cargo_bin("benchrun")
+    Command::cargo_bin("playerbenchai")
         .unwrap()
         .args(["run", "--help"])
         .assert()
@@ -136,7 +136,7 @@ fn test_critical_memory_is_fail() {
 
 #[test]
 fn test_cli_run_local_json() {
-    Command::cargo_bin("benchrun")
+    Command::cargo_bin("playerbenchai")
         .unwrap()
         .args(["run", "--device", "local", "--duration", "1", "--json"])
         .assert()
@@ -146,7 +146,7 @@ fn test_cli_run_local_json() {
 
 #[test]
 fn test_cli_run_scos_terminal() {
-    Command::cargo_bin("benchrun")
+    Command::cargo_bin("playerbenchai")
         .unwrap()
         .args(["run", "--device", "scos", "--duration", "1"])
         .assert()
@@ -156,7 +156,7 @@ fn test_cli_run_scos_terminal() {
 
 #[test]
 fn test_cli_run_accepts_custom_thresholds() {
-    Command::cargo_bin("benchrun")
+    Command::cargo_bin("playerbenchai")
         .unwrap()
         .args([
             "run",
