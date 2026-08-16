@@ -18,6 +18,6 @@ Write a practical blog post about building a Rust CLI for signage player benchma
 
 ## Useful Examples
 
-- `benchrun run --device scos --duration 5`
+- `playerbenchai run --device scos --duration 5`
 - `examples/scos-report.json`
 - JSON report comparison idea.
