@@ -4,5 +4,6 @@
   "avg_cpu_percent": 45.0,
   "avg_memory_mb": 380.0,
   "sample_count": 5,
+  "source": "reference values (not measured)",
   "verdict": "Pass"
 }

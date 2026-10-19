@@ -4,6 +4,7 @@ use colored::Colorize;
 pub fn print(report: &BenchReport) {
     println!("\n{}", "BenchRun Report".bold().underline());
     println!("{} {}", "Device:".bold(), report.device);
+    println!("{} {}", "Source:".bold(), report.source);
     println!("{} {}s", "Duration:".bold(), report.duration_secs);
     println!("{} {}", "Samples:".bold(), report.sample_count);
     println!("{} {:.1}%", "Avg CPU:".bold(), report.avg_cpu_percent);

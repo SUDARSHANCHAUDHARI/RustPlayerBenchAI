@@ -5,11 +5,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Rust](https://img.shields.io/badge/Rust-1.75%2B-orange?logo=rust)
 
-> A Rust CLI benchmark reporter for digital signage player profiles — deterministic CPU/memory verdicts.
+> A Rust CLI benchmark reporter for digital signage players — measured locally, reference values per device class.
 
-**RustPlayerBenchAI** (installed as the `playerbenchai` command) produces deterministic CPU
-and memory benchmark reports for known device classes, then maps those results into `PASS`,
-`WARN`, or `FAIL` verdicts.
+**RustPlayerBenchAI** (installed as the `playerbenchai` command) measures CPU and memory on
+the local machine, or reports fixed reference values for known device classes, then maps
+those results into `PASS`, `WARN`, or `FAIL` verdicts. Every report says which one it is.
 
 ## Table of Contents
 
@@ -36,10 +36,11 @@ validate thresholds, and produce consistent JSON or terminal benchmark summaries
 
 ## Features
 
-- Runs benchmark simulations for supported player profiles.
-- Supports `local`, `scos`, `brightsign`, `pi4`, and unknown-device fallback profiles.
+- `local` (the default) measures this machine: it renders simulated 640x360 frames at
+  60 fps for the given duration and times them with `std::time::Instant`.
+- `scos`, `brightsign`, `pi4`, and unknown devices return reference values (not measured).
+- Labels every report with its source: `measured` or `reference values (not measured)`.
 - Calculates CPU, memory, and sample count.
-- Uses duration to control the number of generated samples.
 - Produces `PASS`, `WARN`, and `FAIL` verdicts from CPU and memory thresholds.
 - Supports terminal output for humans and JSON output for automation.
 - Includes integration tests for profiles, thresholds, duration behavior, and CLI output.
@@ -75,10 +76,10 @@ cargo install --path .
 ## Usage
 
 ```bash
-# Run benchmark against the default local profile for 10 seconds
+# Measure this machine for 10 seconds (the default `local` device)
 playerbenchai run
 
-# Run a known device profile
+# Show reference values for a known device class (not measured)
 playerbenchai run --device scos
 playerbenchai run --device brightsign
 playerbenchai run --device pi4
@@ -110,18 +111,25 @@ Real JSON output from the CLI:
   "avg_cpu_percent": 45.0,
   "avg_memory_mb": 380.0,
   "sample_count": 5,
+  "source": "reference values (not measured)",
   "verdict": "Pass"
 }
 ```
 
 ## Supported Device Profiles
 
-| Device | CPU Profile | Memory Profile |
+`local` is the only measured device. CPU is the share of wall time spent rendering frames
+(one core). Memory is this process's resident set size, read with `ps` once per second.
+Sample count is the number of frames rendered.
+
+The other devices are reference values (not measured). No device is contacted.
+
+| Device | CPU (reference) | Memory (reference) |
 |---|---:|---:|
 | `scos` | 45% | 380 MB |
 | `brightsign` | 30% | 256 MB |
 | `pi4` | 55% | 512 MB |
-| `local` or unknown | 40% | 350 MB |
+| unknown | 40% | 350 MB |
 
 ## Verdict Thresholds
 
@@ -159,7 +167,7 @@ Run these checks locally before publishing changes.
 ```text
 src/
   cli.rs          Command-line interface
-  bench/          Device profile and benchmark calculation
+  bench/          Local measurement and reference device values
   report.rs       Verdict and report output
 tests/
   integration_test.rs

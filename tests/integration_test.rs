@@ -58,7 +58,7 @@ fn test_unknown_device_uses_defaults() {
 
 #[test]
 fn test_duration_sets_sample_count() {
-    let result = bench::run("local", 7).unwrap();
+    let result = bench::run("scos", 7).unwrap();
     assert_eq!(result.sample_count, 7);
 }
 
@@ -70,6 +70,7 @@ fn test_normal_load_is_pass() {
         avg_cpu_percent: 40.0,
         avg_memory_mb: 300.0,
         sample_count: 5,
+        measured: false,
     };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Pass));
@@ -81,6 +82,7 @@ fn test_high_cpu_is_warn() {
         avg_cpu_percent: 75.0,
         avg_memory_mb: 300.0,
         sample_count: 5,
+        measured: false,
     };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Warn));
@@ -105,6 +107,7 @@ fn test_high_memory_is_warn() {
         avg_cpu_percent: 40.0,
         avg_memory_mb: 650.0,
         sample_count: 5,
+        measured: false,
     };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Warn));
@@ -116,6 +119,7 @@ fn test_critical_cpu_is_fail() {
         avg_cpu_percent: 95.0,
         avg_memory_mb: 300.0,
         sample_count: 5,
+        measured: false,
     };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Fail));
@@ -127,6 +131,7 @@ fn test_critical_memory_is_fail() {
         avg_cpu_percent: 40.0,
         avg_memory_mb: 850.0,
         sample_count: 5,
+        measured: false,
     };
     let rep = report::build("test", 5, &result);
     assert!(matches!(rep.verdict, Verdict::Fail));
@@ -141,7 +146,8 @@ fn test_cli_run_local_json() {
         .args(["run", "--device", "local", "--duration", "1", "--json"])
         .assert()
         .success()
-        .stdout(contains("avg_cpu_percent"));
+        .stdout(contains("avg_cpu_percent"))
+        .stdout(contains("\"source\": \"measured\""));
 }
 
 #[test]
@@ -151,7 +157,8 @@ fn test_cli_run_scos_terminal() {
         .args(["run", "--device", "scos", "--duration", "1"])
         .assert()
         .success()
-        .stdout(contains("BenchRun Report"));
+        .stdout(contains("BenchRun Report"))
+        .stdout(contains("reference values (not measured)"));
 }
 
 #[test]
