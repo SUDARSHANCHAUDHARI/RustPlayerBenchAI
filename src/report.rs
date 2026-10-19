@@ -8,6 +8,8 @@ pub struct BenchReport {
     pub avg_cpu_percent: f64,
     pub avg_memory_mb: f64,
     pub sample_count: usize,
+    /// "measured" or "reference values (not measured)".
+    pub source: String,
     pub verdict: Verdict,
     pub thresholds: Thresholds,
 }
@@ -76,6 +78,11 @@ pub fn build_with_thresholds(
         avg_cpu_percent: result.avg_cpu_percent,
         avg_memory_mb: result.avg_memory_mb,
         sample_count: result.sample_count,
+        source: if result.measured {
+            "measured".to_string()
+        } else {
+            "reference values (not measured)".to_string()
+        },
         verdict,
         thresholds,
     }
